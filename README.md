@@ -1,0 +1,1 @@
+Created a fetching function that uses GIBS API from NASA. Using this, you can get 2 images, and I use it to compare between the two images. This is used to see how our society have developed but also climate change.
