@@ -4,6 +4,7 @@ import cv2
 import os
 from fetch_image import fetch_gibs_image 
 from landmarks import print_landmarks, add_new_landmark, landmarks
+from image_analysis import create_change_highlights
 # BBOX Format: Min Lat, Min Long, Max Lat, Max Long
 
 
@@ -20,28 +21,27 @@ def main():
         os.makedirs(output_folder)
 
     for name, bbox in landmarks.items():
-        print(f"Processing {name}...")
-        
         img_past = fetch_gibs_image(date_one, bbox, name)
         img_present = fetch_gibs_image(date_two, bbox, name)
 
         if img_past is not None and img_present is not None:
-            font = cv2.FONT_HERSHEY_DUPLEX
-            black_color = (0, 0, 0)
+            img_comparison = create_change_highlights(img_past, img_present)
             
-            # Label
-            cv2.putText(img_past, f"{name.replace('_', ' ')} {date_one}", (20, 60), font, 1.1, black_color, 2)
-            cv2.putText(img_present, f"{name.replace('_', ' ')} {date_two}", (20, 60), font, 1.1, black_color, 2)
+            font = cv2.FONT_HERSHEY_DUPLEX
+            cv2.putText(img_past, "PAST", (20, 60), font, 1.1, (0,0,0), 2)
+            cv2.putText(img_present, "RECENT", (20, 60), font, 1.1, (0,0,0), 2)
+            cv2.putText(img_comparison, "CHANGE (RED)", (20, 60), font, 1.1, (0,0,255), 2)
 
-            # Combined the two images
-            combined = np.hstack((img_past, img_present))
+            combined = np.hstack((img_past, img_present, img_comparison))
+            
+
             cv2.line(combined, (800, 0), (800, 800), (0, 0, 0), 4)
+            cv2.line(combined, (1600, 0), (1600, 800), (0, 0, 0), 4)
 
-            file_path = os.path.join(output_folder, f"{name}_comparison.jpg")
+            # Save
+            file_path = os.path.join(output_folder, f"{name}_analysis.jpg")
             cv2.imwrite(file_path, combined)
-            print(f"Saved: {file_path}")
-        else:
-            print(f"Skipping {name}: Data not available.")
+            print(f"Saved Analysis: {file_path}")
 
     print(f"\nFinished. Results are in the '{output_folder}' folder.")
 
