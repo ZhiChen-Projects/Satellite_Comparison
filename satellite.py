@@ -5,7 +5,7 @@ import os
 from fetch_image import fetch_gibs_image 
 from landmarks import print_landmarks, add_new_landmark, landmarks
 from image_analysis import create_change_highlights
-# BBOX Format: Min Lat, Min Long, Max Lat, Max Long
+
 
 
 def main():

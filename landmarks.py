@@ -2,7 +2,7 @@ from database import load_landmarks, save_landmarks
 
 landmarks = load_landmarks()
 
-
+# BBOX Format: Min Lat, Min Long, Max Lat, Max Long
 def print_landmarks():
     print("\nYour current landmarks consist of: ")
     for name in landmarks:
