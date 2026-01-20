@@ -28,8 +28,8 @@ def main():
             img_comparison = create_change_highlights(img_past, img_present)
             
             font = cv2.FONT_HERSHEY_DUPLEX
-            cv2.putText(img_past, "PAST", (20, 60), font, 1.1, (0,0,0), 2)
-            cv2.putText(img_present, "RECENT", (20, 60), font, 1.1, (0,0,0), 2)
+            cv2.putText(img_past, date_one, (20, 60), font, 1.1, (0,0,0), 2)
+            cv2.putText(img_present, date_two, (20, 60), font, 1.1, (0,0,0), 2)
             cv2.putText(img_comparison, "CHANGE (RED)", (20, 60), font, 1.1, (0,0,255), 2)
 
             combined = np.hstack((img_past, img_present, img_comparison))
